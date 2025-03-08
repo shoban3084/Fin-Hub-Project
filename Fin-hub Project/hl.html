@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Loan Repayment Calculator</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f5f5f5;
+    background-image: url(photo-1634757439914-23b8acb9d411.avif);
+}
+
+h1 {
+    text-align: center;
+    color: #b00a0a98;
+}
+
+form {
+    max-width: 400px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#chart-container {
+    width: 80%;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+canvas {
+    width: 100%;
+    height: auto;
+}
+
+    </style>
+</head>
+<body>
+
+<h1>Home Loan Repayment Calculator</h1>
+
+<form id="loanForm">
+    <label for="loanAmount">Loan Amount ($):</label>
+    <input type="number" id="loanAmount" required>
+
+    <label for="annualInterestRate">Annual Interest Rate (%):</label>
+    <input type="number" id="annualInterestRate" required>
+
+    <label for="loanTerm">Loan Term (Years):</label>
+    <input type="number" id="loanTerm" required>
+
+    <button type="button" onclick="calculateLoan()">Calculate</button>
+</form>
+
+<div id="chart-container">
+    <canvas id="loanChart"></canvas>
+</div>
+
+<script>
+    function calculateLoan() {
+        var loanAmount = parseFloat(document.getElementById("loanAmount").value);
+        var annualInterestRate = parseFloat(document.getElementById("annualInterestRate").value);
+        var loanTerm = parseInt(document.getElementById("loanTerm").value);
+
+        var monthlyInterestRate = annualInterestRate / 12 / 100;
+        var numberOfPayments = loanTerm * 12;
+
+        var monthlyPayment = (loanAmount * monthlyInterestRate) / (1 - Math.pow(1 + monthlyInterestRate, -numberOfPayments));
+        var totalPayment = monthlyPayment * numberOfPayments;
+        var totalInterest = totalPayment - loanAmount;
+
+        // Calculate extra payments and interest for each year
+        var years = [];
+        var extraPayments = [];
+        var interestPayments = [];
+
+        for (var i = 1; i <= loanTerm; i++) {
+            var extraPayment = monthlyPayment * 12 * i - totalPayment;
+            var interestPaid = (loanAmount * monthlyInterestRate * 12 * i) - (monthlyPayment * 12 * i - extraPayment);
+
+            years.push(i);
+            extraPayments.push(extraPayment);
+            interestPayments.push(interestPaid);
+        }
+
+        // Update chart
+        updateChart(years, extraPayments, interestPayments);
+    }
+
+    function updateChart(years, extraPayments, interestPayments) {
+        var ctx = document.getElementById('loanChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: years,
+                datasets: [{
+                    label: 'Extra Payments ($)',
+                    data: extraPayments,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }, {
+                    label: 'Interest Payments ($)',
+                    data: interestPayments,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom'
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+</script>
+<script>
+    window.embeddedChatbotConfig = {
+    chatbotId: "yAAoOvLOCQh8YjULTFnvA",
+    domain: "www.chatbase.co"
+    }
+    </script>
+    <script
+    src="https://www.chatbase.co/embed.min.js"
+    chatbotId="yAAoOvLOCQh8YjULTFnvA"
+    domain="www.chatbase.co"
+    defer>
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIN HUB</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url(abstract-big-data-concept-background_23-2148314228.avif);
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: rgb(255, 255, 255);
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 400px;
+            text-align: center;
+            padding: 20px;
+            margin-right: 950px;  
+            margin-top: 35px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Financial Planner</h2>
+    <form id="financialForm">
+        <label for="income">Enter Income:</label>
+        <input type="number" id="income" required>
+
+        <label for="expenses">Enter Expenses:</label>
+        <input type="number" id="expenses" required>
+
+        <label for="taxes">Enter Taxes:</label>
+        <input type="number" id="taxes" required>
+
+        <label for="insurance">Enter Insurance Amount:</label>
+        <input type="number" id="insurance" required>
+
+        <label for="pf">Enter Provident Fund Deduction:</label>
+        <input type="number" id="pf" required>
+
+        <button type="button" onclick="calculate()">Calculate</button>
+    </form>
+    
+    <div id="result"></div>
+</div>
+
+<script>
+    function calculate() {
+        const income = parseFloat(document.getElementById('income').value) || 0;
+        const expenses = parseFloat(document.getElementById('expenses').value) || 0;
+        const taxes = parseFloat(document.getElementById('taxes').value) || 0;
+        const insurance = parseFloat(document.getElementById('insurance').value) || 0;
+        const pf = parseFloat(document.getElementById('pf').value) || 0;
+
+        const balance = income - expenses - taxes - insurance - pf;
+        const savings = (55 / 100) * balance;
+        const investment = (45 / 100) * balance;
+        const mf = (20 / 100) * investment;
+        const lic = (35 / 100) * investment;
+        const sm = (25 / 100) * investment;
+        const cry = (20 / 100) * investment;
+
+        const result = `
+            <p>Remaining Balance: $${balance.toFixed(2)}</p>
+            <p>Amount to be Saved: $${savings.toFixed(2)}</p>
+            <p>Amount to be Invested: $${investment.toFixed(2)}</p>
+            <p>Amount to be invested in MUTUAL FUNDS: $${mf.toFixed(2)}</p>
+            <p>Amount to be invested in LIC: $${lic.toFixed(2)}</p>
+            <p>Amount to be invested in STOCK MARKET: $${sm.toFixed(2)}</p>
+            <p>Amount to be invested in CRYPTOCURRENCY: $${cry.toFixed(2)}</p>
+            <p>Invest Wisely, Retire Early</p>
+            <p>FIN-HUB</p>
+        `;
+
+        document.getElementById('result').innerHTML = result;
+    }
+</script>
+<script>
+    window.embeddedChatbotConfig = {
+    chatbotId: "yAAoOvLOCQh8YjULTFnvA",
+    domain: "www.chatbase.co"
+    }
+    </script>
+    <script
+    src="https://www.chatbase.co/embed.min.js"
+    chatbotId="yAAoOvLOCQh8YjULTFnvA"
+    domain="www.chatbase.co"
+    defer>
+    </script>
+
+</body>
+</html>
